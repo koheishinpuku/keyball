@@ -14,8 +14,10 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
+
 #pragma once
 
+#include "bmp_custom_keycode.h"
 //////////////////////////////////////////////////////////////////////////////
 // Configurations
 
@@ -36,7 +38,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endif
 
 #ifndef KEYBALL_SCROLLSNAP_ENABLE
-#    define KEYBALL_SCROLLSNAP_ENABLE 0
+#    define KEYBALL_SCROLLSNAP_ENABLE 1
 #endif
 
 #ifndef KEYBALL_SCROLLSNAP_RESET_TIMER
@@ -70,7 +72,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // Types
 
 enum keyball_keycodes {
-    KBC_RST = SAFE_RANGE, // Keyball configuration: reset to default
+    KBC_RST = BMP_SAFE_RANGE, // Keyball configuration: reset to default
     KBC_SAVE,             // Keyball configuration: save to EEPROM
 
     CPI_I100, // CPI +100 CPI
@@ -91,7 +93,7 @@ enum keyball_keycodes {
 typedef union {
     uint32_t raw;
     struct {
-        uint8_t cpi : 7;
+        uint16_t cpi : 7;
         uint8_t sdiv : 3; // scroll divider
     };
 } keyball_config_t;
@@ -165,7 +167,11 @@ uint8_t keyball_get_scroll_div(void);
 void keyball_set_scroll_div(uint8_t div);
 
 // TODO: document
-uint8_t keyball_get_cpi(void);
+uint16_t keyball_get_cpi(void);
 
 // TODO: document
-void keyball_set_cpi(uint8_t cpi);
+void keyball_set_cpi(uint16_t cpi);
+
+void pointing_device_driver_init(void);
+
+report_mouse_t pointing_device_driver_get_report(report_mouse_t rep);
